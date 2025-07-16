@@ -9,9 +9,7 @@
    Make sure you have this version installed via Unity Hub
 
 ---
-## Build and Run with WebGL.rar file
-1. Extract WebGL.rar contents into a folder
-2. Skip section below and follow steps to run locally.
+
 ## Build and Run (WebGL)
 
 1. Open the project in Unity
@@ -24,7 +22,9 @@
     - Unity will compile and launch it in your default browser
 
 ---
+## Build and Run with WebGL build file
 
+1. Follow steps below to run locally
 ## Running WebGL Build Locally
 
 Most browsers block WebGL from running correctly using `file://` URLs.  
