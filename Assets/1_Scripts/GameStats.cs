@@ -20,7 +20,7 @@ public class GameStats : MonoBehaviour
     public GameObject spawnContainer;
     public Button closePanel;
     private GameObject spawnedPrize;
-    public float chanceToWin = 0.20f;
+    public float chanceToWin = 0.80f;
     private bool isAnimating = false;
     private bool didWin;
     public List<GameObject> prizeObjects = new List<GameObject>();
