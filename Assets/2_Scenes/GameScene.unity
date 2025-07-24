@@ -299,7 +299,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.18039216, g: 0.18431373, b: 0.18431373, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -985,8 +985,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1254,6 +1254,7 @@ MonoBehaviour:
   - {fileID: 5167555161559725109, guid: c3acfb5585e4bda4db0f68aa7926d454, type: 3}
   - {fileID: 5149788258120724697, guid: b630f6ba1eb19f540a1b1ff0ed4511f6, type: 3}
   - {fileID: 6493106536056583757, guid: dc386383a160ca1489ba9833c13e901d, type: 3}
+  mainCamera: {fileID: 519070893}
 --- !u!1 &1279440766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,8 +1586,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class GameStats : MonoBehaviour
 {
@@ -24,19 +25,21 @@ public class GameStats : MonoBehaviour
     private bool isAnimating = false;
     private bool didWin;
     public List<GameObject> prizeObjects = new List<GameObject>();
+    public Camera mainCamera;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake() {
         UpdateCreditsNeeded();
-        UpdateCredits();
+        LoadReactCredits();
         rewardPanel.SetActive(false);
     }
     void Start()
     {
         QualitySettings.vSyncCount = 0;           // Disable VSync
         Application.targetFrameRate = 60;         // Cap at 60 FPS
+        //set creditsOwned = whatever react has
     }
 
     
@@ -57,6 +60,14 @@ public class GameStats : MonoBehaviour
     public void UpdateCredits() {
         creditsOwnedText.text = $"Your credits: ${creditsOwned}";
     }
+
+    public void LoadReactCredits() {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        creditsOwned = GetCurrency();
+
+#endif
+        creditsOwnedText.text = $"Your credits: ${creditsOwned}";
+    }
     public void UpdateCreditsNeeded() {
         creditsNeededText.text = $"Credits to play: ${creditsNeeded}";
     }
@@ -71,6 +82,9 @@ public class GameStats : MonoBehaviour
         creditsOwned -= credits;
         UpdateCredits();
         coinIcon.GetComponent<PopAnimation>().PlayPop();
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            UpdateCurrencyFromUnity(creditsOwned.ToString());
+        #endif
     }
 
     public void playGame() {
@@ -128,4 +142,40 @@ public class GameStats : MonoBehaviour
             spawnContainer.transform
         );
     }
+
+
+    [DllImport("__Internal")]
+    private static extern void UpdateCurrencyFromUnity(string value);
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern int GetCurrency();
+    #endif
+    // Call this when creditsNeeded changes to notify React
+    public void SendCreditsNeededToReact() {
+        UpdateCurrencyFromUnity(creditsNeeded.ToString());
+    }
+
+    // Called from React via sendMessage
+    public void ReceiveCurrencyFromReact(string value) {
+        if (int.TryParse(value, out int parsedValue)) {
+            creditsOwned = parsedValue;
+            Debug.Log($"Credits owned updated from React: {creditsOwned}");
+        } else {
+            Debug.LogError($"Failed to parse creditsOwned from React: {value}");
+        }
+    }
+
+    public void ReceiveBackgroundColor(string colorString) {
+        if (ColorUtility.TryParseHtmlString(colorString, out Color parsedColor)) {
+            if (mainCamera != null) {
+                mainCamera.backgroundColor = parsedColor;
+                Debug.Log("Background color set to: " + parsedColor);
+            } else {
+                Debug.LogWarning("Main camera is not assigned.");
+            }
+        } else {
+            Debug.LogWarning("Invalid color string: " + colorString);
+        }
+    }
 }
+
